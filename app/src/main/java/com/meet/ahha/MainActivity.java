@@ -7,10 +7,14 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
+    private Database datasource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        datasource = new Database(this);
+        datasource.open();
     }
 
 
@@ -34,4 +38,15 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        datasource.open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        datasource.close();
+        super.onPause();
+    }
 }
