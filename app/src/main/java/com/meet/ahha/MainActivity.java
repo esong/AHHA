@@ -20,14 +20,12 @@ import static android.view.View.OnClickListener;
 public class MainActivity extends Activity {
 
     private Database datasource;
-    private DatabaseHelper dbh;
     private Button searchButton;
     private Spinner yearSpinner, manufacturerSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbh= new DatabaseHelper (this);
         datasource = new Database(this);
         datasource.open();
 
@@ -41,7 +39,7 @@ public class MainActivity extends Activity {
                 System.out.println("in search");
 
                 List<Car> cars= new ArrayList<Car>();
-                cars =dbh.getCars(String.valueOf(yearSpinner.getSelectedItem()),String.valueOf(manufacturerSpinner.getSelectedItem()),"*");
+                cars =datasource.getCars(String.valueOf(yearSpinner.getSelectedItem()),String.valueOf(manufacturerSpinner.getSelectedItem()),"*");
             }
         });
 

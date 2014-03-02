@@ -1,6 +1,7 @@
 package com.meet.ahha;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteReadOnlyDatabaseException;
@@ -11,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lby20102 on 14-03-01.
@@ -97,5 +100,51 @@ public class Database {
                 rtnString+=", ";
         }
         return rtnString;
+    }
+
+    //For reference....
+//    String Year;
+//    String Manufacturer;
+//    String Model;
+//    String Vehicle_Class;
+//    float Engine_Size;
+//    int Cylinder;
+//    String Transmission;
+//    String FuelType;
+//    float City_Fuel_Consumption;
+//    float HWY_Fuel_Consumption;
+//    int Fuel_Per_Year;
+//    int CO2Emission;
+    public List<Car> getCars(String year, String manufacturer, String model)
+    {
+        List<Car> cars = new ArrayList<Car>();
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_COMMENTS + "WHERE" +
+                (year=="*" ? "" : "Year = \"" + year +"\"") +
+                (manufacturer=="*" ? "" : "MANUFACTURER = \"" + manufacturer +"\"") +
+                (model=="*" ? "" : "MODEL = \"" + model + "\"") +
+                "LIMIT 50";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Car car = new Car(
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getFloat(5),
+                        cursor.getInt(6),
+                        cursor.getString(7),
+                        cursor.getString(8),
+                        cursor.getFloat(9),
+                        cursor.getFloat(10),
+                        cursor.getInt(11),
+                        cursor.getInt(12)
+                );
+                cars.add(car);
+            } while (cursor.moveToNext());
+        }
+        return cars;
+
     }
 }
