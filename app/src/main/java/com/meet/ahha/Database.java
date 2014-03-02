@@ -118,11 +118,11 @@ public class Database {
     public List<Car> getCars(String year, String manufacturer, String model)
     {
         List<Car> cars = new ArrayList<Car>();
-        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_COMMENTS + "WHERE" +
-                (year=="*" ? "" : "Year = \"" + year +"\"") +
-                (manufacturer=="*" ? "" : "MANUFACTURER = \"" + manufacturer +"\"") +
-                (model=="*" ? "" : "MODEL = \"" + model + "\"") +
-                "LIMIT 50";
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_COMMENTS + " WHERE id > 0" +
+                (year=="*" ? "" : " AND Year = \"" + year +"\"") +
+                (manufacturer=="*" ? "" : " AND MANUFACTURER = \"" + manufacturer +"\"") +
+                (model=="*" ? "" : " AND MODEL = \"" + model + "\"") +
+                " LIMIT 50";
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {

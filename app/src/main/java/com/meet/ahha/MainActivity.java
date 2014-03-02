@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,17 +40,15 @@ public class MainActivity extends Activity {
                 System.out.println("in search");
 
                 List<Car> cars= new ArrayList<Car>();
-                cars =datasource.getCars(String.valueOf(yearSpinner.getSelectedItem()),String.valueOf(manufacturerSpinner.getSelectedItem()),"*");
+                String a = String.valueOf(yearSpinner.getSelectedItem());
+                String b = String.valueOf(manufacturerSpinner.getSelectedItem());
+                cars =datasource.getCars(a,b,"*");
             }
         });
 
+        yearSpinner = (Spinner) findViewById(R.id.yearInput);
+        manufacturerSpinner = (Spinner) findViewById(R.id.manufactInput);
 
-//        yearSpinner = (Spinner) findViewById(R.id.yearInput);
-//        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-//        yearSpinner.setAdapter(yearAdapter);
-//        manufacturerSpinner = (Spinner) findViewById(R.id.manufactInput);
-//        ArrayAdapter<String> manuAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-//        yearSpinner.setAdapter(manuAdapter);
 
     }
 
