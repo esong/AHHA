@@ -43,6 +43,11 @@ public class MainActivity extends Activity {
                 String a = String.valueOf(yearSpinner.getSelectedItem());
                 String b = String.valueOf(manufacturerSpinner.getSelectedItem());
                 cars =datasource.getCars(a,b,"*");
+                System.out.println(cars.size());
+                for (Car car : cars)
+                {
+                    System.out.println (car.getManufacturer()+ " " + car.getModel() + " " + car.getCity_FuelConsumption());
+                }
             }
         });
 
@@ -75,7 +80,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        datasource.open();
+        //datasource.open();
         super.onResume();
     }
 

@@ -4,13 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 
-import com.meet.ahha.DatabaseHelper;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,19 +44,28 @@ public class Database {
         dbHelper.close();
     }
 
+//    private void ReadDataFromCSV() throws IOException {
+//        ReadDataFromCSV("assets/data.csv");
+////        System.out.println(context.getFilesDir());
+////        for(File file : listOfFiles)
+////        {
+////            if(file.getName().endsWith(".csv"))
+////                ReadDataFromCSV(file.getAbsolutePath());
+////        }
+//    }
     private void ReadDataFromCSV() throws IOException {
-        File[] listOfFiles = context.getFilesDir().listFiles();
 
-        for(File file : listOfFiles)
-        {
-            if(file.getName().endsWith(".csv"))
-                ReadDataFromCSV(file.getAbsolutePath());
-        }
+        InputStream istream = context.getResources().openRawResource(
+                context.getResources().getIdentifier("raw/data", "raw", context.getPackageName()));
+        InputStreamReader iReader = new InputStreamReader(istream);
+        ReadDataFromCSV(iReader);
     }
 
-    private void ReadDataFromCSV(String fileName) throws IOException {
-        FileReader file = new FileReader(fileName);
+    private void ReadDataFromCSV(InputStreamReader file) throws IOException {
+        //FileReader file = new FileReader(fileName);
         BufferedReader buffer = new BufferedReader(file);
+        buffer = new BufferedReader(
+                new InputStreamReader(context.getResources().openRawResource(R.raw.data)));
         String line = "";
         String tableName ="CarInfos";
         String columns = getColumnsName();
@@ -118,11 +125,12 @@ public class Database {
     public List<Car> getCars(String year, String manufacturer, String model)
     {
         List<Car> cars = new ArrayList<Car>();
-        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_COMMENTS + " WHERE id > 0" +
+        String selectQuery = "SELECT * FROM " + DatabaseHelper.TABLE_COMMENTS + " WHERE id > -1" +
                 (year=="*" ? "" : " AND Year = \"" + year +"\"") +
                 (manufacturer=="*" ? "" : " AND MANUFACTURER = \"" + manufacturer +"\"") +
                 (model=="*" ? "" : " AND MODEL = \"" + model + "\"") +
                 " LIMIT 50";
+        System.out.println(selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
