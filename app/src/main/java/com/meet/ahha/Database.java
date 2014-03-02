@@ -41,6 +41,8 @@ public class Database {
 
     public void close()
     {
+        String sb = "DROP TABLE "+ DatabaseHelper.TABLE_COMMENTS;
+        database.execSQL(sb.toString());
         dbHelper.close();
     }
 
@@ -129,6 +131,7 @@ public class Database {
                 (year=="*" ? "" : " AND Year = \"" + year +"\"") +
                 (manufacturer=="*" ? "" : " AND MANUFACTURER = \"" + manufacturer +"\"") +
                 (model=="*" ? "" : " AND MODEL = \"" + model + "\"") +
+                " ORDER BY CO2_EMISSIONS ASC" +
                 " LIMIT 50";
         System.out.println(selectQuery);
         Cursor cursor = database.rawQuery(selectQuery, null);
