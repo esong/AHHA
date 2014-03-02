@@ -1,9 +1,18 @@
 package com.meet.ahha;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import static android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 
@@ -15,6 +24,17 @@ public class MainActivity extends Activity {
 
         datasource = new Database(this);
         datasource.open();
+
+        Button searchButton = (Button) findViewById(R.id.searchButton);
+        // button for changing bg color
+        searchButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View arg0) {
+                //Intent intent = new Intent(MainActivity.this, ColorActivity.class);
+                //intent.putExtra("current_fps", view.getFPS());
+                //startActivity(intent);
+                System.out.println("in search");
+            }
+        });
     }
 
 
