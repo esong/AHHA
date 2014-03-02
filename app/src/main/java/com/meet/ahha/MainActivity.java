@@ -11,21 +11,27 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import java.util.List;
+import java.util.ArrayList;
 import static android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 
     private Database datasource;
+    private DatabaseHelper dbh;
+    private Button searchButton;
+    private Spinner yearSpinner, manufacturerSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        dbh= new DatabaseHelper (this);
         datasource = new Database(this);
         datasource.open();
 
-        Button searchButton = (Button) findViewById(R.id.searchButton);
+        searchButton = (Button) findViewById(R.id.searchButton);
         // button for changing bg color
         searchButton.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
@@ -33,8 +39,20 @@ public class MainActivity extends Activity {
                 //intent.putExtra("current_fps", view.getFPS());
                 //startActivity(intent);
                 System.out.println("in search");
+
+                List<Car> cars= new ArrayList<Car>();
+                cars =dbh.getCars(String.valueOf(yearSpinner.getSelectedItem()),String.valueOf(manufacturerSpinner.getSelectedItem()),"*");
             }
         });
+
+
+//        yearSpinner = (Spinner) findViewById(R.id.yearInput);
+//        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+//        yearSpinner.setAdapter(yearAdapter);
+//        manufacturerSpinner = (Spinner) findViewById(R.id.manufactInput);
+//        ArrayAdapter<String> manuAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+//        yearSpinner.setAdapter(manuAdapter);
+
     }
 
 
