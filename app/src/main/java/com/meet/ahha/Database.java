@@ -48,7 +48,8 @@ public class Database {
 
         for(File file : listOfFiles)
         {
-            ReadDataFromCSV(file.getAbsolutePath());
+            if(file.getName().endsWith(".csv"))
+                ReadDataFromCSV(file.getAbsolutePath());
         }
     }
 
